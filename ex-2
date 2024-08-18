@@ -1,0 +1,37 @@
+class DiscountStrategy:
+    def apply_discount(self, order_amount):
+        pass
+
+class RegularDiscount(DiscountStrategy):
+    def apply_discount(self, order_amount):
+        return order_amount
+
+class PremiumDiscount(DiscountStrategy):
+    def apply_discount(self, order_amount):
+        return order_amount * 0.9
+
+class VIPDiscount(DiscountStrategy):
+    def apply_discount(self, order_amount):
+        return order_amount * 0.8
+
+class Order:
+    def __init__(self, customer_type, order_amount):
+        self.customer_type = customer_type
+        self.order_amount = order_amount
+        if self.customer_type == "regular":
+            self.discount_strategy = RegularDiscount()
+        elif self.customer_type == "premium":
+            self.discount_strategy = PremiumDiscount()
+        elif self.customer_type == "VIP":
+            self.discount_strategy = VIPDiscount()
+
+    def final_price(self):
+        return self.discount_strategy.apply_discount(self.order_amount)
+
+order1 = Order("regular", 1000)
+order2 = Order("premium", 1000)
+order3 = Order("VIP", 1000)
+
+print(f"Regular Customer Final Price: ${order1.final_price():.2f}")
+print(f"Premium Customer Final Price: ${order2.final_price():.2f}")
+print(f"VIP Customer Final Price: ${order3.final_price():.2f}")
